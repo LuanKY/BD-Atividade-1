@@ -1,72 +1,64 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulário de Usuário</title>
     <style>
-body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-}
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
 
-.container {
-    border: 1px solid #ccc;
-    padding: 20px;
-    padding-right: 30px;
-    max-width: 400px;
-    background-color: #f9f9f9;
-}
+        .container {
+            border: 1px solid #ccc;
+            padding: 20px;
+            padding-right: 30px;
+            max-width: 400px;
+            background-color: #f9f9f9;
+        }
 
-.container h1, h2 {
-    text-align: center;
-    margin-bottom: 20px;
-}
+        .container h1,
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
 
-.container label {
-    display: block;
-    margin-bottom: 5px;
-}
+        .container label {
+            display: block;
+            margin-bottom: 5px;
+        }
 
-.container input[type="text"],
-.container input[type="date"] {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
+        .container input[type="text"],
+        .container input[type="date"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
 
-.container button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
+        .container button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
 
-.container button:hover {
-    background-color: #45a049;
-}
-
-.response {
-    font-family: monospace;
-    white-space: pre-wrap;
-    background-color: #f9f9f9;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    max-width: 600px;
-}
-
+        .container button:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>Formulário de Usuário</h1>
@@ -108,22 +100,22 @@ body {
 
             if (cpf_post_tam == 3 || cpf_post_tam == 7) {
                 cpf_post.value += '.'
-            }else if (cpf_post_tam == 11) {
+            } else if (cpf_post_tam == 11) {
                 cpf_post.value += '-'
             }
         })
-        
+
         cpf_get.addEventListener('keypress', () => {
             let cpf_get_tam = cpf_get.value.length
 
             if (cpf_get_tam == 3 || cpf_get_tam == 7) {
                 cpf_get.value += '.'
-            }else if (cpf_get_tam == 11) {
+            } else if (cpf_get_tam == 11) {
                 cpf_get.value += '-'
             }
         })
 
-        document.getElementById("form_post").addEventListener("submit", function(event) {
+        document.getElementById("form_post").addEventListener("submit", function (event) {
             event.preventDefault();
 
             const nome = document.getElementById("nome").value;
@@ -143,31 +135,32 @@ body {
                 },
                 body: JSON.stringify(data)
             })
-            .then(response => {
-                // Limpa o formulário após a submissão
-                document.getElementById("nome").value = '';
-                document.getElementById("cpf").value = '';
-                document.getElementById("data_nascimento").value = '';
-            })
-            .catch(error => {
-                console.error("Erro ao enviar o POST:", error);
-            });
+                .then(response => {
+                    // Limpa o formulário após a submissão
+                    document.getElementById("nome").value = '';
+                    document.getElementById("cpf").value = '';
+                    document.getElementById("data_nascimento").value = '';
+                })
+                .catch(error => {
+                    console.error("Erro ao enviar o POST:", error);
+                });
         });
 
-        document.getElementById("form_get").addEventListener("submit", function(event) {
+        document.getElementById("form_get").addEventListener("submit", function (event) {
             event.preventDefault();
 
             const cpf = removePontuacao(document.getElementById("cpf_get").value);
 
             fetch(`http://127.0.0.1:5000/get_usuario/${cpf}`)
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById("resposta").textContent = JSON.stringify(data, null, 2);
-            })
-            .catch(error => {
-                console.error("Erro ao enviar o GET:", error);
-            });
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("resposta").textContent = JSON.stringify(data, null, 2);
+                })
+                .catch(error => {
+                    console.error("Erro ao enviar o GET:", error);
+                });
         });
     </script>
 </body>
+
 </html>
